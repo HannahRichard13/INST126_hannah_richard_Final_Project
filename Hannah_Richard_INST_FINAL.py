@@ -7,14 +7,19 @@ makeup_page = requests.get("http://makeup-api.herokuapp.com/api/v1/products.json
 makeup_data = json.loads(makeup_page.content)
 
 makeup_dict = {}
-user_brand = input("Which makeup brand woudl you like to search for?\nYour options include: 'almay', 'alva', 'clinique', 'benefit', 'covergirl', 'e.l.f.', 'essie', 'fenty', 'gossier', iman', 'marcelle', 'maybelline', 'misa', 'mistura', 'revlon', smashbox'\n")
-user_product = input("Which make product would you like to search for?\nYour options include: 'Blush', 'Bronzer', 'Eyeline', 'Eyebrow', 'Eyeshadow', 'Foundation', 'Lip Liner', 'Lipstick', 'Mascara', 'Nail Polish'\n")
+user_brand = input("Which makeup brand would you like to search for?\nYour options include: 'almay', 'alva', 'clinique', 'benefit', 'covergirl', 'e.l.f.', 'essie', 'fenty', 'gossier', iman', 'marcelle', 'maybelline', 'misa', 'mistura', 'revlon', smashbox'\n")
+user_product = input("Which make product would you like to search for?\nYour options include: 'Blush', 'Bronzer', 'Eyeline', 'Eyebrow', 'Eyeshadow', 'Foundation', 'Lip Liner', 'Lipstick', 'Mascara', 'Nail Polish'\n").lower()
 user_price = float(input("What is the maximum price you are willing to pay for a makeup product?\nEnter a number:\n"))
+
+print(makeup_data[0].keys())
+for idx in range(len(makeup_data)):
+    print(makeup_data[idx]["name"])
+    makeup_data[idx]["product_type"]
 
 
 for idx in range(len(makeup_data)):
-    brand_id = makeup_data[idx]["brand"]
-    if brand_id == user_brand:
+    product_id = makeup_data[idx]["product_type"]
+    if product_id == user_product:
         product = str(makeup_data[idx]["name"])
         price = str(makeup_data[idx]["price"])
         makeup_dict[product] = price
