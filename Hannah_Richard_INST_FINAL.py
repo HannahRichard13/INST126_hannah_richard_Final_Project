@@ -18,7 +18,6 @@ for idx in range(len(makeup_data)):
         makeup_dict[product] = price
 
 
-print(makeup_dict)
 for key, values in makeup_dict.items():
     if values == "None":
         product_price = 0.0
