@@ -9,8 +9,10 @@
 
 # CHECKLIST ITEMS:
 
-
-
+# In lines : Checklist item 5.15 satisfied - You created a dictionary manually.
+# In lines : Checklist item 5.17 satisfied - You accessed the keys of a dictionary.
+# In lines : Checklist item 5.18 satisfied - You iterated through the items of a dictionary to access both keys and values.
+# In lines : Checklist item 5.19 satisfied - You updated values in a dictionary programmatically (i.e., using variables/loops, not manually)
 
 # import modules
 import requests # imports the API data link
@@ -20,7 +22,8 @@ makeup_page = requests.get("http://makeup-api.herokuapp.com/api/v1/products.json
 makeup_data = json.loads(makeup_page.content) # load the content
 
 makeup_dict = {} # create an empty dictionary
-user_product = input("Which makeup product would you like to search for?\nYour options include: 'Blush', 'Bronzer', 'Eyeline', 'Eyebrow', 'Eyeshadow', 'Foundation', 'Lip Liner', 'Lipstick', 'Mascara', 'Nail Polish'\n").lower() # this will collect user input on their makeup product of choice
+data_counter = 0 # create a variable to count how many products are within budget later in code
+user_product = input("Which makeup product would you like to search for?\nYour options include: 'Blush', 'Bronzer', 'Eyeliner', 'Eyebrow', 'Eyeshadow', 'Foundation', 'Lip Liner', 'Lipstick', 'Mascara', 'Nail Polish'\n").lower() # this will collect user input on their makeup product of choice
 user_price = float(input("What is the maximum price you are willing to pay for a makeup product?\nEnter a number:\n")) # collect user input on budget and converts it to a float
 
 
@@ -33,14 +36,24 @@ for idx in range(len(makeup_data)): # loop through each part of the list of make
 
 for key, values in makeup_dict.items(): # this iterates through the dictionary makeup_dict
     if values == "None": # this accounts for places where no data is entered 
-        product_price = 0.0 # if no data is entered for the price, it sets the price to 0
-    else:
+        makeup_dict[key]=[0.0] # if no data is entered for the price, it changes the key value to the price 0.0
+
+print("Here is a list of {} products in your budget of $ {}:\n\n".format(user_product, user_price))
+for key, values in makeup_dict.items(): # this iterates through the dictionary makeup_dict
+    try: 
         product_price = float(values) # if there is a price data point, it converts it into a float
+    except TypeError:
+        print("There is no data here")
     if product_price < user_price: # if the price is less than the users budget, it will display that item to the user as an optino for them to buy
+        data_counter += 1 # if product is in budget, the data counter will increase
         if product_price ==0: # if the price = 0, it will tell the user that this price is unknown
             print("The item {} has price N/A, but if you were interested in this cost you can use another source to find its price".format(key))
         else: # output to the user the product and price
             print("The item {}is in your price range and it costs: ${}".format(key, values))
 
+if data_counter == 0: # if the data counter has no increase, there are no products available within the budget
+    print("\nThere are no products available within this budget")
+else:
+    print("\nThis is the end of the products within your budget")
 
 
