@@ -38,6 +38,7 @@
 # import modules
 import requests # imports the API data link
 import json # base.package to work with JSON data https://docs.python.org/3/library/json.html
+import re # import re module
 
 makeup_page = requests.get("http://makeup-api.herokuapp.com/api/v1/products.json") # load the API link
 makeup_data = json.loads(makeup_page.content) # load the content
@@ -46,10 +47,11 @@ makeup_dict = {} # create an empty dictionary
 makeup_tuple = ("blush", "bronzer", "eyeliner", "eyebrow", "eyeshadow", "foundation", "lip liner", "lipstick", "mascara", "nail polish") # tuple of all the makeup products in this makeup API
 data_counter = 0 # create a variable to count how many products are within budget later in code
 
-print("\nWelcome to the program! This will help you sort which makeup products you can buy based on your budget\n")
+print("\nWelcome to the program! This program will help you sort which makeup products you can buy based on your budget.\n")
 
-user_price = float(input("What is the maximum price you are willing to pay for a makeup product?\nEnter a number:\n")) # collect user input on budget and converts it to a float
+user_price = float(input("What is the maximum price you are willing to pay for a makeup product?\nEnter a number:\n$")) # collect user input on budget and converts it to a float
 user_goal = input("Do you want to look for a specific product or are you looking for all products within a specific budget?: Enter either 'specific' or 'all' ").lower()
+
 
 # if else statement based on if the user is looking for one product specifically, or all makeup products in general
 if user_goal == "all": # if the user is looking for makeup product in general
@@ -73,22 +75,34 @@ for key, values in makeup_dict.items(): # this iterates through the dictionary m
     if values == "None": # this accounts for places where no data is entered 
         makeup_dict[key]=[0.0] # if no data is entered for the price, it changes the key value to the price 0.0
 
+with open("makeup_product_list.txt", "w") as file:
+    file.write("Here is a list of all the products in your budget of $ {}:\n\n".format(user_price)) # tells the user they are about to get a list of makeup products)
 print("Here is a list of all the products in your budget of $ {}:\n\n".format(user_price)) # tells the user they are about to get a list of makeup products
 for key, values in makeup_dict.items(): # this iterates through the dictionary makeup_dict
     try: # implemented a try, except because not all data values are floats
         product_price = float(values) # if there is a price data point, it converts it into a float
-    except TypeError:
+    except TypeError: # accepts the TypeEror and states there is no data in this box
         print("There is no data here")
+        with open("makeup_product_list.txt", "a") as file:
+            file.write("\nThere is no data here")
     if product_price < user_price: # if the price is less than the users budget, it will display that item to the user as an optino for them to buy
         data_counter += 1 # if product is in budget, the data counter will increase
         if product_price ==0: # if the price = 0, it will tell the user that this price is unknown
             print("The item {} has price N/A, but if you were interested in this cost you can use another source to find its price".format(key))
+            with open("makeup_product_list.txt", "a") as file:
+                file.write("\nThe item {} has price N/A, but if you were interested in this cost you can use another source to find its price".format(key))
         else: # output to the user the product and price
-            print("The item {}is in your price range and it costs: ${}".format(key, values))
+            print("The item {} is in your price range and it costs: ${}".format(key, values))
+            with open("makeup_product_list.txt", "a") as file:
+                file.write("\nThe item {} is in your price range and it costs: ${}".format(key, values))
 
 if data_counter == 0: # if the data counter has no increase, there are no products available within the budget
-    print("\nThere are no products available within this budget")
+    print("\nThere are no products available within this budget\n")
+    with open("makeup_product_list.txt", "a") as file:
+        file.write("\nThere are no products available within this budget\n")
 else:
-    print("\nThis is the end of the products within your budget")
+    print("\nThis is the end of the products within your budget\n")
+    with open("makeup_product_list.txt", "a") as file:
+        file.write("\nThis is the end of the products within your budget\n")
 
 
