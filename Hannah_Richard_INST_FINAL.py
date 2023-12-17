@@ -37,8 +37,8 @@
 # Advanced Topics:
 
 # - Regular Expressions
-# In lines 159-160: Checklist item 7.2 satisfied - You used a backslash in a string to ’escape’ a special character.
-# In lines 157: Checklist item 7.3 satisfied - You used a ’raw’ string in a string to avoid needing to use backslashes.
+# In lines 161-162: Checklist item 7.2 satisfied - You used a backslash in a string to ’escape’ a special character.
+# In lines 159: Checklist item 7.3 satisfied - You used a ’raw’ string in a string to avoid needing to use backslashes.
 # In lines 61-69 and 144: Checklist item 7.4 satisfied - You used a regular expression in order to check that a string matched a certain pattern.
 # In lines 142 and 145: Checklist item 7.5 satisfied - You used regular expressions with groupings to extract or change parts of a string.
 
@@ -149,9 +149,11 @@ for element in prices: # iterates through the list of prices in the tuple
     price_int_value = int(float(price_value)) # turns the number into an int
     price_list.append(price_int_value) # appends the int into a list
 
-
-mean_of_prices = sum(price_list) / length # takes the sum of the list and divides it by number of prices
-print("\nThe average cost of the makeup products are ${} \n ".format(round(mean_of_prices, 2)))  # outputs to user the mean
+try:
+    mean_of_prices = sum(price_list) / length # takes the sum of the list and divides it by number of prices
+    print("\nThe average cost of the makeup products are ${} \n ".format(round(mean_of_prices, 2)))  # outputs to user the mean
+except ZeroDivisionError: # if there is no data, you cannot divide by zero, so this prevents the error
+    print("There is no data available\n")
 string_input = input("Would you like to have your file name printed to you using raw string code or regular string code? Enter 'raw' or 'regular' :\n").lower()
 if string_input == 'raw': # asks the user if they want the string raw or regular, even though the output is the same (this is more for a grading purposes)
     print(r"If you would like to accces the file name containing your information to add into your file path, copy and paste \makeup_product_list.txt\ ") #Checklist item 7.3 satisfied
