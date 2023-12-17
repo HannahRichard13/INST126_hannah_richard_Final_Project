@@ -158,5 +158,4 @@ string_input = input("Would you like to have your file name printed to you using
 if string_input == 'raw': # asks the user if they want the string raw or regular, even though the output is the same (this is more for a grading purposes)
     print(r"If you would like to accces the file name containing your information to add into your file path, copy and paste \makeup_product_list.txt\ ") #Checklist item 7.3 satisfied
 else:
-    print(""" If you would like to accces the file name containing your information 
-        to add into your file path, copy and paste\n\\makeup_product_list.txt\\""") # Checklist item 7.2 satisfied 
+    print(""" If you would like to accces the file name containing your information to add into your file path, copy and paste\n\\makeup_product_list.txt\\""") # Checklist item 7.2 satisfied 
